@@ -1,0 +1,27 @@
+let
+    CurrentUtc = DateTimeZone.UtcNow(),
+    UtcNoZone = DateTimeZone.RemoveZone(CurrentUtc),
+    CurrentYear = Date.Year(UtcNoZone),
+
+    // Last Sunday of March and of October
+    EndOfMarch = #date(CurrentYear, 3, 31),
+    SummerStart = Date.AddDays(EndOfMarch, -Date.DayOfWeek(EndOfMarch, Day.Sunday)),
+    EndOfOctober = #date(CurrentYear, 10, 31),
+    SummerEnd = Date.AddDays(EndOfOctober, -Date.DayOfWeek(EndOfOctober, Day.Sunday)),
+
+    // In the EU the clocks change at 01:00 UTC
+    IsSummerTime =
+        UtcNoZone >= (SummerStart & #time(1, 0, 0))
+        and UtcNoZone < (SummerEnd & #time(1, 0, 0)),
+    Offset = if IsSummerTime then 2 else 1,
+
+    SpainTime = DateTimeZone.RemoveZone(
+        DateTimeZone.SwitchZone(CurrentUtc, Offset)
+    ),
+
+    Source = #table(
+        type table [RefreshDateTime = datetime, RefreshUTC = datetime],
+        {{ SpainTime, UtcNoZone }}
+    )
+in
+    Source
