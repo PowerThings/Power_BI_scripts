@@ -1,0 +1,6 @@
+Last Update =
+"Last refresh: "
+    & FORMAT(
+        MAX ( ModelRefresh[RefreshDateTime] ),
+        "dd/MM/yyyy HH:mm"
+    )
