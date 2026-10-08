@@ -1,0 +1,7 @@
+let
+    Source = #table(
+        type table [RefreshDateTime = datetimezone],
+        {{ DateTimeZone.ToLocal(DateTimeZone.UtcNow()) }}
+    )
+in
+    Source
