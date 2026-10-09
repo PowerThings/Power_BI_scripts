@@ -1,0 +1,20 @@
+DimFecha =
+VAR FechaMinima =
+    MIN ( FactSolicitudes[FechaSolicitud] )
+VAR FechaMaxima =
+    MAX ( FactSolicitudes[FechaSolicitud] )
+RETURN
+    ADDCOLUMNS (
+        CALENDAR ( FechaMinima, FechaMaxima ),
+        "Año", YEAR ( [Date] ),
+        "Trimestre", "T" & FORMAT ( [Date], "Q" ),
+        "NumeroMes", MONTH ( [Date] ),
+        "Mes", FORMAT ( [Date], "[$-es-ES]mmmm" ),
+        "MesCorto", FORMAT ( [Date], "[$-es-ES]mmm" ),
+        "AñoMes", FORMAT ( [Date], "YYYY-MM" ),
+        "NumeroSemana", WEEKNUM ( [Date], 2 ),
+        "Dia", DAY ( [Date] ),
+        "NumeroDiaSemana", WEEKDAY ( [Date], 2 ),
+        "DiaSemana", FORMAT ( [Date], "[$-es-ES]dddd" ),
+        "EsFinDeSemana", WEEKDAY ( [Date], 2 ) >= 6
+    )
